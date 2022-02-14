@@ -398,8 +398,7 @@ void save(bool win){ //Saves your wins and losses.
         winloss>>wins;
         winloss>>loss;
         winloss.clear();
-        winloss.close();
-        winloss.open("stat.dat");
+        winloss.seekg(0, std::ios::beg);
         if(win) wins++;
         else loss++;
         winloss<<wins<<endl;
@@ -407,6 +406,7 @@ void save(bool win){ //Saves your wins and losses.
         winloss.close();
     }
      else smakefil(win);
+
 }
 void names(string name[], int numbN){ //Saves data to names.txt, initilized whenever typing names
     fstream pnames;
@@ -417,19 +417,11 @@ void names(string name[], int numbN){ //Saves data to names.txt, initilized when
         while(pnames>>coun){
             count++;
         }
-        pnames.close();
-        pnames.open("names.txt");
-        pnames.seekg (0, ios::end);
         for(int i=0; i<numbN; i++){//inputing the # of names to be saved.
             pnames<<name[i]<<endl;
             count++;
         }
         vector<string>ntsort(count);
-        pnames.close();
-        pnames.open("names.txt");
-        for(int i=0; i<count; i++){
-            pnames>>ntsort[i];
-        }
         pnames.close();
         ntsort=sort(ntsort, count);
         pnames.open("names.txt");
@@ -480,7 +472,7 @@ vector<string> sort(vector<string> sornam, int count){
         strcpy(cvnt[r], sornam[r].c_str());
     }
     for(int r=0; r<count-1; r++){
-        for(int i=r+1;i<count; i++){
+        for(int i=r+1;i<count; r++){
             if(cvnt[r][0]>cvnt[i][0]){
                 string temp=sornam[r];
                 sornam[r]=sornam[i];
